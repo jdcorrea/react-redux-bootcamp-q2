@@ -1,6 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { useSelector } from "react-redux";
 import {
   Bar,
   Links,
@@ -8,7 +8,7 @@ import {
 } from '../styles/components/Header.styles.js';
 
 export const Header = () => {
-  const { activeUser } = useSelector(state => state.storeData);
+  const { activeUser } = useSelector(state => state.storeData)
   return (
     <Bar className="topnav" id="myTopnav" data-testid="bar">
       <Links to="/">

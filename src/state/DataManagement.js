@@ -1,3 +1,4 @@
+// import { store } from "./store";
 /* userData structure
 
 const StoreData = {

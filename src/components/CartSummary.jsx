@@ -1,16 +1,32 @@
-import React, { useRef, useLayoutEffect, useState, useEffect, useContext } from 'react';
-import { UserContext } from './UserData';
+import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import { getViewSize } from '../styles/globalStyles.js';
+import { useSelector } from "react-redux";
 import { Summary, Paragraph, Button, Title } 
   from '../styles/components/CartSummary.styles.js';
 
+import Products from '../utils/Products.json';
+
 const CartSummary = () => {
-  const { activeUser, getUserCart } = useContext(UserContext);
+  const productsItems = Products?.data?.products?.items || [];
+  const { activeUser } = useSelector(state => state.storeData);
+  const cartItems = useSelector(state => {
+    if (!activeUser) return [];
+    const userCart = state.storeData.users.find(user => user.id === activeUser);
+    const cartList = userCart?.cartItems?.map(cartItem => {
+      const details =  productsItems.find(item => item.id === cartItem.id)
+      return {
+        price: details.price,
+        quantity: cartItem.quantity
+      }
+    })
+    return cartList || [];
+  });
+  
   const mainRef = useRef();
   const [offsetTop, setOffsetTop] = useState(0);
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
-  const {totalItems, totalCost} = getTotals(getUserCart(activeUser));
+  const {totalItems, totalCost} = getTotals(cartItems);
 
   useLayoutEffect(() => {
     setOffsetTop(getOffsetTop(mainRef));

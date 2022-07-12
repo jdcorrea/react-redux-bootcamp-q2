@@ -5,7 +5,7 @@ import {Cart} from '../pages/Cart';
 import {Home} from '../pages/Home';
 import {Header} from '../components/Header';
 import { Login } from '../pages/Login';
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
 export const AppRouter = () => {
   const { activeUser } = useSelector(state => state.storeData);
