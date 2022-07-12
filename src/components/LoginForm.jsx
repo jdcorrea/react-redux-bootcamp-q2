@@ -1,23 +1,27 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import LoginApi from '../utils/loginApi'
-import { UserContext } from './UserData';
+import LoginApi from '../utils/loginApi';
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveUser } from '../state/reducers/wizelineReducer';
 
 import { Form, Title, Label, Input, Button } 
   from '../styles/components/Login.styles.js';
 
 const LoginForm = () => {
-  const { activeUser, setActiveUser } = useContext(UserContext);
+  const { activeUser } = useSelector(state => state.storeData);
+  const dispatch = useDispatch();
   const userNameRef = useRef();
   const passwordRef = useRef();
   const [customErrorToShow, setCustomErrorToShow] = useState('');
   const history = useHistory();
+  const [isUserActive, setIsUserActive] = useState(activeUser);
 
   useEffect(() => {
-    if (activeUser !== null) {
-      setActiveUser(null);
+    if (isUserActive !== null) {
+      dispatch(setActiveUser({id: null}));
+      setIsUserActive(null);
     }
-  }, [activeUser, setActiveUser])
+  }, [isUserActive, dispatch])
   
   const handleOnClick = () => {
     const username = userNameRef.current.value;
@@ -27,7 +31,7 @@ const LoginForm = () => {
     try {
       LoginApi(username, password)
         .then(data => {
-          setActiveUser(data.id);
+          dispatch(setActiveUser({id: data.id}));
           history.push('/');
         })
         .catch(err => setCustomErrorToShow(err.message))

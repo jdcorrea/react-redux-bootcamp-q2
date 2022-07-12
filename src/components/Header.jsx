@@ -1,6 +1,6 @@
-import React, { useContext} from 'react';
+import React from 'react';
 
-import { UserContext } from './UserData';
+import { useSelector } from "react-redux";
 import {
   Bar,
   Links,
@@ -8,7 +8,7 @@ import {
 } from '../styles/components/Header.styles.js';
 
 export const Header = () => {
-  const { activeUser } = useContext(UserContext);
+  const { activeUser } = useSelector(state => state.storeData);
   return (
     <Bar className="topnav" id="myTopnav" data-testid="bar">
       <Links to="/">

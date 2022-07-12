@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import {Products} from '../pages/Products';
 import {Cart} from '../pages/Cart';
 import {Home} from '../pages/Home';
 import {Header} from '../components/Header';
 import { Login } from '../pages/Login';
-import { UserContext } from '../components/UserData'
+import { useSelector } from "react-redux";
 
 export const AppRouter = () => {
-  const { activeUser } = useContext(UserContext);
+  const { activeUser } = useSelector(state => state.storeData);
+
   return (
     <Router>
       <Header />
