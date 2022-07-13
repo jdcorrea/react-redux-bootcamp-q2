@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./state/store";
 import { debounce } from "debounce";
 import { saveToLocalStorage } from './state/DataManagement'
+import { AuthProvider } from './context/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 store.subscribe(
@@ -18,7 +19,9 @@ store.subscribe(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </Provider>
   </React.StrictMode>
 );

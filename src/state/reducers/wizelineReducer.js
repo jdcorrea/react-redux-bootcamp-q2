@@ -12,7 +12,7 @@ export const wizelineReducer = createSlice({
     reducers: {
       setActiveUser: (state, action) => {
         state.storeData.activeUser = 
-          action.payload.id != null ? parseInt(action.payload.id) : null
+          action.payload.id != null ? action.payload.id : null
       },
       addProductToCart: (state, action) => {
         const newUsersData = state.storeData.users.map(user => {
@@ -125,6 +125,14 @@ export const wizelineReducer = createSlice({
         })
         state.storeData.users = newUsersData;
       },
+      addUser: (state, action) => {
+        if (!action.payload.id) return state;
+        const newUsersData = state.storeData.users.push({
+          id: action.payload.id,
+          cartItems: []
+        })
+        state.storeData.users = newUsersData;
+      }
     }
 });
 
@@ -134,7 +142,8 @@ export const {
   incrementQuantityBy1, 
   decrementQuantityBy1,
   setItemQuantity,
-  deleteProductFromCart
+  deleteProductFromCart,
+  addUser
 } = wizelineReducer.actions;
 
 export default wizelineReducer.reducer;

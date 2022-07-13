@@ -2,7 +2,7 @@
 /* userData structure
 
 const StoreData = {
-  "activeUser": null,
+  "activeUser": null || string,
   "users": [
     {
       "id": 123,
@@ -28,7 +28,7 @@ const StoreData = {
 
 export const initialState = {
   storeData: {
-    "activeUser": 490,
+    "activeUser": null,
     "users": [
       {
         "id": 123,
