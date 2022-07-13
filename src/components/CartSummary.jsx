@@ -1,5 +1,6 @@
 import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import { getViewSize } from '../styles/globalStyles.js';
+import { useAuth } from '../context/AuthContext'
 import { useSelector } from "react-redux";
 import { Summary, Paragraph, Button, Title } 
   from '../styles/components/CartSummary.styles.js';
@@ -8,10 +9,10 @@ import Products from '../utils/Products.json';
 
 const CartSummary = () => {
   const productsItems = Products?.data?.products?.items || [];
-  const { activeUser } = useSelector(state => state.storeData);
+  const { currentUser } = useAuth();
   const cartItems = useSelector(state => {
-    if (!activeUser) return [];
-    const userCart = state.storeData.users.find(user => user.id === activeUser);
+    if (!currentUser) return [];
+    const userCart = state.storeData.users.find(user => user.id === currentUser);
     const cartList = userCart?.cartItems?.map(cartItem => {
       const details =  productsItems.find(item => item.id === cartItem.id)
       return {

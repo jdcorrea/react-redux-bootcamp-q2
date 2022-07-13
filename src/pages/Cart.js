@@ -1,7 +1,8 @@
 import React, { useLayoutEffect, useRef, useState, useEffect} from 'react'
-import { useSelector } from "react-redux";
+import { useAuth } from '../context/AuthContext'
 import CartList from '../components/CartList'
 import CartSummary from '../components/CartSummary'
+import { useSelector } from 'react-redux'
 
 import { getViewSize } from '../styles/globalStyles.js'
 import { CartContainer, CartDetails, Title, EmptyCart } 
@@ -30,12 +31,11 @@ export const Cart = () => {
   }, [windowSize]);  
   
   const DisplayCart = () => {
-    const { activeUser } = useSelector(state => state.storeData);
+    const { currentUser } = useAuth();
     const cartList = useSelector(state => {
-      if (!activeUser) return [];
-      const userCart = state.storeData.users.find(user => user.id === activeUser);
-      const cartList = userCart?.cartItems;
-      return cartList;
+      if (!currentUser) return [];
+      const userCart = state.storeData.users.find(user => user.id === currentUser);
+      return userCart?.cartItems || [];
     });
 
     return (

@@ -1,6 +1,6 @@
 import React, {useRef} from 'react'
-
-import { useSelector, useDispatch } from "react-redux";
+import { useAuth } from '../context/AuthContext';
+import { useDispatch } from "react-redux";
 import { incrementQuantityBy1, decrementQuantityBy1, setItemQuantity, deleteProductFromCart } from '../state/reducers/wizelineReducer';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,7 +12,7 @@ import { Card, CardInfo, Image, Title, Paragraph, CardButtons,
 
 const CartItem = (props) => {
   const { id, name, images, price, quantity } = props
-  const { activeUser } = useSelector(state => state.storeData);
+  const { currentUser } = useAuth();
   const inputRef = useRef();
   const dispatch = useDispatch();
 
@@ -32,17 +32,17 @@ const CartItem = (props) => {
           <QuantityButtons>
             <Button
               data-testid="cart-btn-rest-1-item"
-              onClick={() => dispatch(decrementQuantityBy1({id: activeUser, cartItemId: id}))}
+              onClick={() => dispatch(decrementQuantityBy1({id: currentUser, cartItemId: id}))}
               ><FontAwesomeIcon icon={faMinus} />
             </Button>
             <Input type="text" name="itemQuantity" id="" 
               ref={inputRef}
               value={quantity || 0}
-              onChange={() => dispatch(setItemQuantity({id: activeUser, cartItemId: id, quantity: inputRef.current.value}))}
+              onChange={() => dispatch(setItemQuantity({id: currentUser, cartItemId: id, quantity: inputRef.current.value}))}
             />
             <Button
               data-testid="cart-btn-add-1-item"
-              onClick={() => dispatch(incrementQuantityBy1({id: activeUser, cartItemId: id}))}
+              onClick={() => dispatch(incrementQuantityBy1({id: currentUser, cartItemId: id}))}
               ><FontAwesomeIcon icon={faPlus} />
             </Button>
           </QuantityButtons>
@@ -50,7 +50,7 @@ const CartItem = (props) => {
       </CardInfo>
       <Button
         data-testid="cart-btn-remove-item"
-        onClick={() => dispatch(deleteProductFromCart({id: activeUser, productId: id}))}
+        onClick={() => dispatch(deleteProductFromCart({id: currentUser, productId: id}))}
         ><FontAwesomeIcon icon={faTrash} />
       </Button>
     </Card>
