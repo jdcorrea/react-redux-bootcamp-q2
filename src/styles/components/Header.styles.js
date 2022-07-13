@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { viewSizes } from '../globalStyles.js'
 
 export const Bar = styled.div`
   padding: 0px 16px;
-  background-color: #E4212D;
+  background-color: rgb(228,33,45);
   overflow: hidden;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  @media only screen and (max-width: 600px) {
-    flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  @media only screen and (min-width: ${viewSizes.mobile}px) {
+    flex-direction: row;
   }
 `;
 

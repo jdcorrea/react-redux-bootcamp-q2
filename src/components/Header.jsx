@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext} from 'react';
+
+import { UserContext } from './UserData';
 import {
   Bar,
   Links,
@@ -6,6 +8,7 @@ import {
 } from '../styles/components/Header.styles.js';
 
 export const Header = () => {
+  const { activeUser } = useContext(UserContext);
   return (
     <Bar className="topnav" id="myTopnav" data-testid="bar">
       <Links to="/">
@@ -14,7 +17,7 @@ export const Header = () => {
       <FlexContainer>
         <Links to="/products">Products</Links>
         <Links to="/cart">Cart</Links>
-        <Links to="/login">Login</Links>
+        <Links to="/login">{activeUser ? 'logout' : 'login'}</Links>
       </FlexContainer>
     </Bar>
   );
