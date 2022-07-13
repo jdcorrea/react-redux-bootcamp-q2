@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAuth } from '../context/AuthContext.js';
 
 import {
   Bar,
@@ -8,7 +8,7 @@ import {
 } from '../styles/components/Header.styles.js';
 
 export const Header = () => {
-  const { activeUser } = useSelector(state => state.storeData)
+  const { currentUser } = useAuth();
   return (
     <Bar className="topnav" id="myTopnav" data-testid="bar">
       <Links to="/">
@@ -17,7 +17,7 @@ export const Header = () => {
       <FlexContainer>
         <Links to="/products">Products</Links>
         <Links to="/cart">Cart</Links>
-        <Links to="/login">{activeUser ? 'logout' : 'login'}</Links>
+        <Links to="/login">{currentUser ? 'logout' : 'login'}</Links>
       </FlexContainer>
     </Bar>
   );

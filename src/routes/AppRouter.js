@@ -5,11 +5,10 @@ import {Cart} from '../pages/Cart';
 import {Home} from '../pages/Home';
 import {Header} from '../components/Header';
 import { Login } from '../pages/Login';
-import { useSelector } from 'react-redux';
-import { AuthProvider } from '../context/AuthContext';
+import { AuthProvider, useAuth } from '../context/AuthContext';
 
 export const AppRouter = () => {
-  const { activeUser } = useSelector(state => state.storeData);
+  const { currentUser } = useAuth();
 
   return (
     <AuthProvider>
@@ -20,10 +19,10 @@ export const AppRouter = () => {
             <Home />
           </Route>
           <Route path='/products'>
-            { activeUser ? <Products /> : <Redirect to="/login"/> }
+            { currentUser ? <Products /> : <Redirect to="/login"/> }
           </Route>
           <Route path='/cart'>
-            { activeUser ? <Cart /> : <Redirect to="/login"/> }
+            { currentUser ? <Cart /> : <Redirect to="/login"/> }
           </Route>
           <Route path='/login'>
               <Login />

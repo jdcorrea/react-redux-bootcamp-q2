@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../state/reducers/wizelineReducer'
 
 import { Form, Title, Label, Input, Button, ButtonContainer } 
   from '../styles/components/Login.styles.js';
 
 const SignupForm = () => {
+  const dispatch = useDispatch();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
@@ -31,6 +34,7 @@ const SignupForm = () => {
       setCustomErrorToShow('');
       await signup(email, password);
       toggleAuthStatus('login');
+      dispatch(addUser({id: email}))
       history.push('/');
     } catch (error) {
       setCustomErrorToShow('Error signing up');

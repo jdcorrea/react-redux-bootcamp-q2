@@ -2,7 +2,6 @@
 /* userData structure
 
 const StoreData = {
-  "activeUser": null || string,
   "users": [
     {
       "id": 123,
@@ -28,27 +27,7 @@ const StoreData = {
 
 export const initialState = {
   storeData: {
-    "activeUser": null,
-    "users": [
-      {
-        "id": 123,
-        "cartItems": [
-          {
-            "id": 3,
-            "quantity": 4
-          },
-          {
-            "id": 7,
-            "quantity": 2
-          },
-        ]
-      },
-      {
-        "id": 490,
-        "cartItems": [
-        ]
-      }
-    ]
+    users:[]
   }
 }
 

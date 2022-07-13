@@ -10,10 +10,6 @@ export const wizelineReducer = createSlice({
       console.log('testing fundamentals')
     },
     reducers: {
-      setActiveUser: (state, action) => {
-        state.storeData.activeUser = 
-          action.payload.id != null ? action.payload.id : null
-      },
       addProductToCart: (state, action) => {
         const newUsersData = state.storeData.users.map(user => {
           console.log('user', action)
@@ -34,7 +30,6 @@ export const wizelineReducer = createSlice({
                 cartItems: [...newUserCart]
               }
             } else {
-              console.log('no item')
               return {
                 ...user, 
                 cartItems: [
@@ -127,10 +122,15 @@ export const wizelineReducer = createSlice({
       },
       addUser: (state, action) => {
         if (!action.payload.id) return state;
-        const newUsersData = state.storeData.users.push({
-          id: action.payload.id,
-          cartItems: []
-        })
+        const newUsersData = [
+          ...state.storeData.users,
+          {
+            id: action.payload.id,
+            cartItems: []
+          }
+        ]
+
+        console.log('newUser', newUsersData);
         state.storeData.users = newUsersData;
       }
     }
