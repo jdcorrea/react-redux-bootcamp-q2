@@ -1,8 +1,8 @@
 exports.handler = function(event, context, callback) {
-  callback(null, {
+  return {
     statusCode: 200,
     body: JSON.stringify({
       message: 'hello mdfk'
     }) 
-  })
+  }
 }
