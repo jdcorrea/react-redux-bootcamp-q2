@@ -38,7 +38,7 @@ const CartItem = (props) => {
             <Input type="text" name="itemQuantity" id="" 
               ref={inputRef}
               value={quantity || 0}
-              onChange={() => dispatch(setItemQuantity({id: currentUser, cartItemId: id, quantity: inputRef.current.value}))}
+              onChange={() => dispatch(setItemQuantity({id: currentUser, cartItemId: id, quantity: isNaN(parseInt(inputRef.current.value)) ? 0 : parseInt(inputRef.current.value)}))}
             />
             <Button
               data-testid="cart-btn-add-1-item"

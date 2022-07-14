@@ -87,7 +87,7 @@ export const wizelineReducer = createSlice({
         state.storeData.users = newUsersData;
       },
       setItemQuantity: (state, action) => {
-        if (!action.id) return state;
+        if (!action.payload.id) return state;
         const newUsersData = state.storeData.users.map(user => {
           if (user.id === action.payload.id) {
             const userCartItems = user.cartItems.map(item => {
