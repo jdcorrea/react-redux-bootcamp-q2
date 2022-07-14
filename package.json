@@ -30,8 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "netlify dev",
-    "lambda": "netlify-lambda src/lambdas"
+    "dev": "netlify dev"
   },
   "eslintConfig": {
     "extends": [
@@ -53,7 +52,6 @@
   },
   "devDependencies": {
     "@testing-library/react": "^13.3.0",
-    "netlify-cli": "^10.9.0",
-    "netlify-lambda": "^2.0.15"
+    "netlify-cli": "^10.9.0"
   }
 }
