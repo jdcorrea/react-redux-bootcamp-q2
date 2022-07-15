@@ -3,4 +3,3 @@ coverage
 build
 .env.*
 functions
-netlify.toml
