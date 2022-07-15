@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loadFromLocalStorage } from '../DataManagement';
 
-const initialState = loadFromLocalStorage();
+export const initialValue = {
+  users: []
+}
 
 export const wizelineReducer = createSlice({
   name: 'localWizelineStore',
-  initialState: initialState,
+  initialState: initialValue,
   reducers: {
     addProductToCart: (state, action) => {
         const userIndex = state.users.findIndex(user => user.id === action.payload.id);
@@ -32,7 +33,8 @@ export const wizelineReducer = createSlice({
       decrementQuantityBy1: (state, action) => {
         const userIndex = state.users.findIndex(user => user.id === action.payload.id);
         const CartItemIndex = state.users[userIndex].cartItems.findIndex(cartItem => cartItem.id === action.payload.productId);
-        state.users[userIndex].cartItems[CartItemIndex]['quantity'] -= 1
+        if (state.users[userIndex].cartItems[CartItemIndex]['quantity'] > 0) state.users[userIndex].cartItems[CartItemIndex]['quantity'] -= 1;
+        return state;
       },
       setItemQuantity: (state, action) => {
         const userIndex = state.users.findIndex(user => user.id === action.payload.id);

@@ -16,11 +16,7 @@ const StoreData = {
 }
 */
 
-export const initialState = {
-  localStore: {
-    users:[]
-  }
-}
+export const initialState = { }
 
 const STORAGE_KEY = 'WizelineStore';
 
