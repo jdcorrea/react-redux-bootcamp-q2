@@ -32,17 +32,17 @@ const CartItem = (props) => {
           <QuantityButtons>
             <Button
               data-testid="cart-btn-rest-1-item"
-              onClick={() => dispatch(decrementQuantityBy1({id: currentUser, cartItemId: id}))}
+              onClick={() => dispatch(decrementQuantityBy1({id: currentUser, productId: id}))}
               ><FontAwesomeIcon icon={faMinus} />
             </Button>
             <Input type="text" name="itemQuantity" id="" 
               ref={inputRef}
               value={quantity || 0}
-              onChange={() => dispatch(setItemQuantity({id: currentUser, cartItemId: id, quantity: isNaN(parseInt(inputRef.current.value)) ? 0 : parseInt(inputRef.current.value)}))}
+              onChange={() => dispatch(setItemQuantity({id: currentUser, productId: id, quantity: isNaN(parseInt(inputRef.current.value)) ? 0 : parseInt(inputRef.current.value)}))}
             />
             <Button
               data-testid="cart-btn-add-1-item"
-              onClick={() => dispatch(incrementQuantityBy1({id: currentUser, cartItemId: id}))}
+              onClick={() => dispatch(incrementQuantityBy1({id: currentUser, productId: id}))}
               ><FontAwesomeIcon icon={faPlus} />
             </Button>
           </QuantityButtons>

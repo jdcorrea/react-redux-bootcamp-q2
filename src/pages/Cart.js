@@ -34,7 +34,7 @@ export const Cart = () => {
     const { currentUser } = useAuth();
     const cartList = useSelector(state => {
       if (!currentUser) return [];
-      const userCart = state.storeData.users.find(user => user.id === currentUser);
+      const userCart = state.localStore.users.find(user => user.id === currentUser);
       return userCart?.cartItems || [];
     });
 

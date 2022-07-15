@@ -4,29 +4,20 @@
 const StoreData = {
   "users": [
     {
-      "id": 123,
+      "id": string,
       "cartItems": [
         {
-          "id": 3,
-          "quantity": 4
-        },
-        {
-          "id": 7,
-          "quantity": 2
+          "id": numeric,
+          "quantity": numeric
         },
       ]
     },
-    {
-      "id": 490,
-      "cartItems": [
-      ]
-    }
   ]
 }
 */
 
 export const initialState = {
-  storeData: {
+  localStore: {
     users:[]
   }
 }

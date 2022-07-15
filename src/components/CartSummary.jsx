@@ -12,7 +12,7 @@ const CartSummary = () => {
   const { currentUser } = useAuth();
   const cartItems = useSelector(state => {
     if (!currentUser) return [];
-    const userCart = state.storeData.users.find(user => user.id === currentUser);
+    const userCart = state.localStore.users.find(user => user.id === currentUser);
     const cartList = userCart?.cartItems?.map(cartItem => {
       const details =  productsItems.find(item => item.id === cartItem.id)
       return {

@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../state/reducers/wizelineReducer'
 
 import { Form, Title, Label, Input, Button, ButtonContainer } 
   from '../styles/components/Login.styles.js';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login, toggleAuthStatus } = useAuth();
@@ -23,7 +26,8 @@ const LoginForm = () => {
     try {
       setLoading(true);
       setCustomErrorToShow('');
-      await login(email, password)
+      await login(email, password);
+      dispatch(addUser({id: email}))
       history.push('/');
     } catch (error) {
       setCustomErrorToShow('email or password wrong', error);

@@ -34,7 +34,7 @@ const SignupForm = () => {
       setCustomErrorToShow('');
       await signup(email, password);
       toggleAuthStatus('login');
-      dispatch(addUser({id: email}))
+      dispatch(addUser({id: email}));
       history.push('/');
     } catch (error) {
       setCustomErrorToShow('Error signing up');
