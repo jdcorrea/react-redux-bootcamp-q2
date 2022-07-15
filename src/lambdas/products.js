@@ -1,33 +1,33 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+const {API_TOKEN, API_URL} = process.env;
 
-const handler = async function(event, context) {
-  const header = {
-    'Authorization': 'Token ' + process.env.REACT_APP_SERVER_API_TOKEN,
-    'Content-Type': 'application/x-www-form-urlencoded'
-  }
-  let response;
+const header = {
+  'x-api-key': API_TOKEN,
+  'Content-Type': 'application/x-www-form-urlencoded'
+}
 
-  console.log('ticky', 'm', process.env.API)
-  try {
-    response = await fetch(process.env.REACT_APP_SERVER_API_URL, {
-      headers: header,
-      method: 'GET'
-    })
-  } catch (error) {
-    return {
-      statusCode: error.statusCode || 500,
-      body: JSON.stringify({
-        error: error.message
-      })
-    }
-  }
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      data: response
-    })
+const checkStatus = (res) => {
+  if (res.ok) {
+    return res.json()
+  } else {
+    throw new Error(res.statusText)
   }
 }
 
-module.exports = {handler}
+export const handler = async function(event, context, callback) {
+  try {
+    const response = await fetch(`${API_URL}/products`, {
+      headers: header,
+      method: 'GET'
+    })
+    const data = await checkStatus(response)
+
+    callback(null, {
+      statusCode: 200,
+      headers: { 'Content-type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+  } catch (error) {
+    callback(error)
+  }
+}
