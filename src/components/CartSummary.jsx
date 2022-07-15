@@ -2,13 +2,16 @@ import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import { getViewSize } from '../styles/globalStyles.js';
 import { useAuth } from '../context/AuthContext'
 import { useSelector } from "react-redux";
+import usePosts from './customHooks/useProducts';
+import { getProducts } from '../state/reducers/apiStoreReducer';
+import { useDispatch } from 'react-redux/es/exports';
 import { Summary, Paragraph, Button, Title } 
   from '../styles/components/CartSummary.styles.js';
 
-import Products from '../utils/Products.json';
-
 const CartSummary = () => {
-  const productsItems = Products?.data?.products?.items || [];
+  const dispatch = useDispatch();
+  const { products } = usePosts();
+  const [productsItems, setProductsItems] = useState(products);
   const { currentUser } = useAuth();
   const cartItems = useSelector(state => {
     if (!currentUser) return [];
@@ -28,6 +31,13 @@ const CartSummary = () => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
   const {totalItems, totalCost} = getTotals(cartItems);
+
+  useEffect(() => {
+    if (productsItems == null) {
+      dispatch(getProducts());
+      setProductsItems(products);
+    }
+  }, [])
 
   useLayoutEffect(() => {
     setOffsetTop(getOffsetTop(mainRef));

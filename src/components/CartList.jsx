@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import CartItem from './CartItem';
 import { useSelector } from "react-redux";
 import { useAuth } from '../context/AuthContext';
-
-import Products from '../utils/Products.json';
+import usePosts from './customHooks/useProducts';
+import { getProducts } from '../state/reducers/apiStoreReducer';
+import { useDispatch } from 'react-redux/es/exports';
 
 import { ItemList } 
 from '../styles/components/CartList.styles.js';
 
 const CartList = () => {
-  const productsItems = Products?.data?.products?.items || [];
+  const dispatch = useDispatch();
+  const { products } = usePosts();
   const { currentUser } = useAuth();
+  const [productList, setProductList] = useState(products);
   const cartItems = useSelector(state => {
     if (!currentUser) return [];
     const userCart = state.localStore.users.find(user => user.id === currentUser);
     const cartList = userCart?.cartItems?.map(cartItem => {
-      const details =  productsItems.find(item => item.id === cartItem.id)
+      const details =  products.find(item => item.id === cartItem.id)
       return {
         ...details,
         quantity: cartItem.quantity
@@ -24,6 +27,13 @@ const CartList = () => {
     return cartList || [];
   });
 
+  useEffect(() => {
+    if (productList == null) {
+      dispatch(getProducts());
+      setProductList(products);
+    }
+  }, [])
+  
   return cartItems
     ? 
       <ItemList>

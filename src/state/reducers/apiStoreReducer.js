@@ -20,7 +20,6 @@ export const getProducts = createAsyncThunk(
       }
 
       const data = await response.json();
-      console.log('data', data)
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -35,9 +34,12 @@ export const apiStoreReducer = createSlice({
       builder
         .addCase(getProducts.pending, (state, action) => {
           state.loading = true;
+          state.error = ''
         })
         .addCase(getProducts.fulfilled, (state, action) => {
+          state.products = action.payload.items;
           state.loading = false;
+          state.error = ''
         })
         .addCase(getProducts.rejected, (state, action) => {
           state.loading = false;
@@ -46,8 +48,8 @@ export const apiStoreReducer = createSlice({
     }
 });
 
-export const selectAllProducts = (state) => state.apiWizelineStore.products;
-export const selectProductsLoading = (state) => state.apiWizelineStore.loading;
-export const selectProductsError = (state) => state.apiWizelineStore.error;
+export const selectAllProducts = (state) => state.apiStore.products;
+export const selectProductsLoading = (state) => state.apiStore.loading;
+export const selectProductsError = (state) => state.apiStore.error;
 
 export default apiStoreReducer.reducer;

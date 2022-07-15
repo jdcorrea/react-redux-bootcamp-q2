@@ -1,21 +1,25 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductItem from './ProductItem';
 import { useDispatch } from 'react-redux/es/exports';
-import { getProducts } from '../state/reducers/apiStoreReducer'
-
-import ProductsData from '../utils/Products.json';
+import { getProducts } from '../state/reducers/apiStoreReducer';
+import usePosts from './customHooks/useProducts';
 
 import { ProductsGrid } 
   from '../styles/components/ProductList.styles.js';
 
 const ProductList = () => {
   const dispatch = useDispatch();
-  dispatch(getProducts())
-  const productsItems = ProductsData?.data?.products?.items;
-  const productsList = productsItems.map(item => {
+  const { products } = usePosts();
+  const [productsApiList, setProductsApiList] = useState([]);  
+  const productsList = productsApiList.map(item => {
     return <ProductItem {...item} key={item.id}/>
   })
 
+  useEffect(() => {
+    dispatch(getProducts());
+    setProductsApiList(products);
+  }, [])
+  
   return (
     <ProductsGrid data-testid="products-grid">
       {productsList}
