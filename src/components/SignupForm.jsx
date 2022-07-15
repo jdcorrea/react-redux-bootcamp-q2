@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../state/reducers/wizelineReducer'
+import { getProducts } from '../state/reducers/apiStoreReducer';
 
 import { Form, Title, Label, Input, Button, ButtonContainer } 
   from '../styles/components/Login.styles.js';
@@ -35,6 +36,7 @@ const SignupForm = () => {
       await signup(email, password);
       toggleAuthStatus('login');
       dispatch(addUser({id: email}));
+      dispatch(getProducts());
       history.push('/');
     } catch (error) {
       setCustomErrorToShow('Error signing up');

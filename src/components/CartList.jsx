@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import CartItem from './CartItem';
 import { useSelector } from "react-redux";
 import { useAuth } from '../context/AuthContext';
-import usePosts from './customHooks/useProducts';
+import useProducts from './customHooks/useProducts';
 import { getProducts } from '../state/reducers/apiStoreReducer';
 import { useDispatch } from 'react-redux/es/exports';
 
@@ -11,7 +11,7 @@ from '../styles/components/CartList.styles.js';
 
 const CartList = () => {
   const dispatch = useDispatch();
-  const { products } = usePosts();
+  const { products } = useProducts();
   const { currentUser } = useAuth();
   const [productList, setProductList] = useState(products);
   const cartItems = useSelector(state => {
@@ -32,7 +32,7 @@ const CartList = () => {
       dispatch(getProducts());
       setProductList(products);
     }
-  }, [])
+  }, [productList, dispatch, products])
   
   return cartItems
     ? 

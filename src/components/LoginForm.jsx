@@ -2,7 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useDispatch } from 'react-redux';
-import { addUser } from '../state/reducers/wizelineReducer'
+import { addUser } from '../state/reducers/wizelineReducer';
+import { getProducts } from '../state/reducers/apiStoreReducer';
 
 import { Form, Title, Label, Input, Button, ButtonContainer } 
   from '../styles/components/Login.styles.js';
@@ -27,7 +28,8 @@ const LoginForm = () => {
       setLoading(true);
       setCustomErrorToShow('');
       await login(email, password);
-      dispatch(addUser({id: email}))
+      dispatch(addUser({id: email}));
+      dispatch(getProducts());
       history.push('/');
     } catch (error) {
       setCustomErrorToShow('email or password wrong', error);

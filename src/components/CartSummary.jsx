@@ -1,23 +1,28 @@
 import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import { getViewSize } from '../styles/globalStyles.js';
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import usePosts from './customHooks/useProducts';
-import { getProducts } from '../state/reducers/apiStoreReducer';
+import useProducts from './customHooks/useProducts';
+import { getProducts, sendOrder, selectOrderStatus, cleanOrder } from '../state/reducers/apiStoreReducer';
+import { cleanUpUserCart } from '../state/reducers/wizelineReducer';
 import { useDispatch } from 'react-redux/es/exports';
 import { Summary, Paragraph, Button, Title } 
   from '../styles/components/CartSummary.styles.js';
 
 const CartSummary = () => {
   const dispatch = useDispatch();
-  const { products } = usePosts();
+  const order = useSelector(selectOrderStatus);
+  const [orderSent, setOrderSent] = useState(false);
+  const { products } = useProducts();
   const [productsItems, setProductsItems] = useState(products);
   const { currentUser } = useAuth();
+  const history = useHistory();
   const cartItems = useSelector(state => {
     if (!currentUser) return [];
     const userCart = state.localStore.users.find(user => user.id === currentUser);
     const cartList = userCart?.cartItems?.map(cartItem => {
-      const details =  productsItems.find(item => item.id === cartItem.id)
+      const details =  productsItems?.find(item => item.id === cartItem.id)
       return {
         price: details.price,
         quantity: cartItem.quantity
@@ -37,7 +42,16 @@ const CartSummary = () => {
       dispatch(getProducts());
       setProductsItems(products);
     }
-  }, [])
+  }, [productsItems, dispatch, products])
+
+  useEffect(() => {
+    if (order.id != null) {
+      alert(`Order: ${order.id} - Details: ${order.message}`);
+      dispatch(cleanOrder());
+      dispatch(cleanUpUserCart({id: currentUser}))
+      history.push('/cart');
+    }
+  }, [orderSent, order, currentUser, dispatch, history])
 
   useLayoutEffect(() => {
     setOffsetTop(getOffsetTop(mainRef));
@@ -54,14 +68,20 @@ const CartSummary = () => {
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [windowSize]);  
+  }, [windowSize]);
 
   return (
     <Summary ref={mainRef} $top={offsetTop}>
       <Title>Summary</Title>
       <Paragraph>Items: <span>{totalItems || 0}</span></Paragraph>
       <Paragraph>Total cost: <span>&#36; {totalCost || 0}</span></Paragraph>
-      <Button>Checkout</Button>
+      <Button
+        disabled={totalItems > 0 ? false : true}
+        onClick={() => {
+          dispatch(sendOrder());
+          setOrderSent(true);
+        }}
+      >Checkout</Button>
     </Summary>
   )
 }
