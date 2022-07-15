@@ -7,7 +7,7 @@ export const Home = () => {
     <Main>
       <button
         onClick={() => {
-          fetch('/.netlify/functions/hello')
+          fetch('/.netlify/functions/products')
           .then(res => res.json())
           .then(({message}) => console.log('mensaje', {message}))
         }}

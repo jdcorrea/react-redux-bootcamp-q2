@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     return auth.onAuthStateChanged(user => {
       setCurrentUser(user?.email);
-      console.log('newUser', user?.email)
       setLoading(false);
     });
   }, [])
