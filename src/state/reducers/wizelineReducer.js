@@ -52,7 +52,7 @@ export const wizelineReducer = createSlice({
     },
     addUser: (state, action) => {
       if (!action?.payload?.id) return state;
-      if (state.users.find(user => user.id === action.payload.id)) return state;
+      if (state?.users?.find(user => user.id === action.payload.id)) return state;
       state.users.push({
         id: action.payload.id,
         cartItems: []

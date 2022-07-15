@@ -22,7 +22,6 @@ const ProductList = () => {
       setProductsApiList(products);
       setProductsUpdate(true);
     }
-    console.log('testing infinite loop');
   }, [productsUpdate, products, dispatch])
   
   return (
