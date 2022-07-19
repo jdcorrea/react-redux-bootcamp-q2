@@ -4,7 +4,7 @@ import {createMemoryHistory} from 'history'
 import { Router } from "react-router-dom";
 import '@testing-library/jest-dom';
 
-import { Header } from "../components/Header.js";
+import { Header } from "../components/Header.jsx";
 
 afterEach(cleanup)
 

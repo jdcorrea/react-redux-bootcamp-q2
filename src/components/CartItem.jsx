@@ -1,6 +1,7 @@
-import React, {useContext, useRef} from 'react'
-
-import { UserContext } from './UserData'
+import React, {useRef} from 'react'
+import { useAuth } from '../context/AuthContext';
+import { useDispatch } from "react-redux";
+import { incrementQuantityBy1, decrementQuantityBy1, setItemQuantity, deleteProductFromCart } from '../state/reducers/wizelineReducer';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -11,8 +12,9 @@ import { Card, CardInfo, Image, Title, Paragraph, CardButtons,
 
 const CartItem = (props) => {
   const { id, name, images, price, quantity } = props
-  const { activeUser, incrementQuantityBy1, decrementQuantityBy1, setItemQuantity, deleteProductFromCart } = useContext(UserContext);
+  const { currentUser } = useAuth();
   const inputRef = useRef();
+  const dispatch = useDispatch();
 
   return (
     <Card data-testid="cart-card">
@@ -30,17 +32,17 @@ const CartItem = (props) => {
           <QuantityButtons>
             <Button
               data-testid="cart-btn-rest-1-item"
-              onClick={() => decrementQuantityBy1(activeUser, id)}
+              onClick={() => dispatch(decrementQuantityBy1({id: currentUser, productId: id}))}
               ><FontAwesomeIcon icon={faMinus} />
             </Button>
             <Input type="text" name="itemQuantity" id="" 
               ref={inputRef}
               value={quantity || 0}
-              onChange={() => setItemQuantity(activeUser, id, inputRef.current.value)}
+              onChange={() => dispatch(setItemQuantity({id: currentUser, productId: id, quantity: isNaN(parseInt(inputRef.current.value)) ? 0 : parseInt(inputRef.current.value)}))}
             />
             <Button
               data-testid="cart-btn-add-1-item"
-              onClick={() => incrementQuantityBy1(activeUser, id)}
+              onClick={() => dispatch(incrementQuantityBy1({id: currentUser, productId: id}))}
               ><FontAwesomeIcon icon={faPlus} />
             </Button>
           </QuantityButtons>
@@ -48,7 +50,7 @@ const CartItem = (props) => {
       </CardInfo>
       <Button
         data-testid="cart-btn-remove-item"
-        onClick={() => deleteProductFromCart(activeUser, id)}
+        onClick={() => dispatch(deleteProductFromCart({id: currentUser, productId: id}))}
         ><FontAwesomeIcon icon={faTrash} />
       </Button>
     </Card>

@@ -1,13 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
-import { UserContext } from './UserData'
+import { useDispatch } from "react-redux";
+import { addProductToCart } from '../state/reducers/wizelineReducer';
+import { useAuth } from '../context/AuthContext';
 
 import { Card, CardInfo, Image, Title, Paragraph, CardButtons, Button } 
   from '../styles/components/ProductItem.styles.js';
 
 const ProductItem = (props) =>{
   const { id, name, images, price, categories } = props
-  const { activeUser, addProductToCart } = useContext(UserContext);
+  const { currentUser } = useAuth();
+  const dispatch = useDispatch();
 
   return (
     <Card data-testid="product-card">
@@ -28,7 +31,7 @@ const ProductItem = (props) =>{
       <CardButtons>
         <Button
           data-testid="product-btn-add_to_cart"
-          onClick={() => addProductToCart(activeUser, id)}
+          onClick={() => dispatch(addProductToCart({id: currentUser, productId: id}))}
           >Add to cart
         </Button>
       </CardButtons>
